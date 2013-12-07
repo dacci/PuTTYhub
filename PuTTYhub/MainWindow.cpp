@@ -163,22 +163,31 @@ void MainWindow_OnCommand(HWND hWnd, int nID, HWND hWndCtrl, UINT uCodeNotify) {
 
       size_t width = (rcScreen.right - rcScreen.left) -
                      (rcWindow.right - rcWindow.left);
-      size_t deltaX = width / (windowList.size() - 1);
+      size_t deltaX = windowList.size() > 1 ?
+          width / (windowList.size() - 1) : 0;
 
       if (nID == ID_WINDOW_TILE_HORZ)
         deltaX = 0;
 
       size_t height = (rcScreen.bottom - rcScreen.top) -
                       (rcWindow.bottom - rcWindow.top);
-      size_t deltaY = height / (windowList.size() - 1);
+      size_t deltaY = windowList.size() > 1 ?
+          height / (windowList.size() - 1) : 0;
 
       if (nID == ID_WINDOW_TILE_VERT)
         deltaY = 0;
 
+      DWORD this_thread = ::GetCurrentThreadId();
+
       for (int i = windowList.size() - 1; 0 <= i; --i) {
+        DWORD window_thread = ::GetWindowThreadProcessId(windowList[i], NULL);
+        ::AttachThreadInput(this_thread, window_thread, TRUE);
+
         ::SetForegroundWindow(windowList[i]);
         ::SetWindowPos(windowList[i], HWND_TOP, deltaX * i, deltaY * i, 0, 0,
                        SWP_NOSIZE);
+
+        ::AttachThreadInput(this_thread, window_thread, FALSE);
       }
 
       ::SetForegroundWindow(hWnd);
