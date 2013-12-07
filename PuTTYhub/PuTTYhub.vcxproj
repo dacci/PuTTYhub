@@ -158,6 +158,7 @@
     <ClInclude Include="PuTTYhub.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="StdAfx.h" />
+    <ClInclude Include="TargetVer.h" />
     <ClInclude Include="WindowList.h" />
   </ItemGroup>
   <ItemGroup>
