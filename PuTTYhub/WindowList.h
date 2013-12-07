@@ -2,7 +2,7 @@
  * Declarations of PuTTY window management.
  *
  * See COPYING for license details.
- * 
+ *
  * @author Shinya Tsuda <wish.upon.a.planet@gmail.com>
  */
 
@@ -15,7 +15,7 @@
 
 typedef std::vector<HWND> CWindowList;
 
-extern CWindowList *g_windowList;
+extern CWindowList* g_windowList;
 
 void UpdateWindowList();
 void CreateWindowList();

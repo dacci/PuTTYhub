@@ -44,9 +44,8 @@ BOOL CALLBACK UpdateWindowListProc(HWND hWnd, LPARAM lParam) {
 void UpdateWindowList() {
   g_windowList->clear();
 
-  for (int i = 0, l = ListBox_GetCount(g_hListBoxWnd); i < l; i++) {
+  for (int i = 0, l = ListBox_GetCount(g_hListBoxWnd); i < l; i++)
     ListBox_DeleteString(g_hListBoxWnd, 0);
-  }
 
   ::EnumWindows(UpdateWindowListProc, NULL);
 }
@@ -72,9 +71,8 @@ void DestroyWindowList() {
  */
 void PostMessageToWindows(UINT uMsg, WPARAM wParam, LPARAM lParam) {
   for (int i = 0, l = ListBox_GetCount(g_hListBoxWnd); i < l; i++) {
-    if (ListBox_GetSel(g_hListBoxWnd, i)) {
+    if (ListBox_GetSel(g_hListBoxWnd, i))
       ::PostMessage(g_windowList->at(i), uMsg, wParam, lParam);
-    }
   }
 }
 
@@ -84,9 +82,8 @@ void PostMessageToWindows(UINT uMsg, WPARAM wParam, LPARAM lParam) {
  */
 void SendMessageToWindows(UINT uMsg, WPARAM wParam, LPARAM lParam) {
   for (int i = 0, l = ListBox_GetCount(g_hListBoxWnd); i < l; i++) {
-    if (ListBox_GetSel(g_hListBoxWnd, i)) {
+    if (ListBox_GetSel(g_hListBoxWnd, i))
       ::SendMessage(g_windowList->at(i), uMsg, wParam, lParam);
-    }
   }
 }
 
@@ -97,8 +94,7 @@ void GetSelectedWindows(CWindowList* windowList) {
   windowList->clear();
 
   for (int i = 0, l = ListBox_GetCount(g_hListBoxWnd); i < l; i++) {
-    if (ListBox_GetSel(g_hListBoxWnd, i)) {
+    if (ListBox_GetSel(g_hListBoxWnd, i))
       windowList->push_back(g_windowList->at(i));
-    }
   }
 }

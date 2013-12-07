@@ -124,9 +124,8 @@ void MainWindow_OnDestroy(HWND hWnd) {
  */
 void MainWindow_OnActivate(HWND hWnd, UINT uState, HWND hWndActDeact,
                            BOOL fMinimized) {
-  if (uState == WA_ACTIVE) {
+  if (uState == WA_ACTIVE)
     ::SetFocus(g_hMsgMcasterWnd);
-  }
 }
 
 /**
@@ -143,19 +142,18 @@ void MainWindow_OnActivate(HWND hWnd, UINT uState, HWND hWndActDeact,
  */
 void MainWindow_OnCommand(HWND hWnd, int nID, HWND hWndCtrl, UINT uCodeNotify) {
   switch (nID) {
-  case IDRETRY:
-    ::UpdateWindowList();
-    break;
+    case IDRETRY: {
+      ::UpdateWindowList();
+      break;
+    }
 
-  case ID_WINDOW_CASCADE:
-  case ID_WINDOW_TILE_HORZ:
-  case ID_WINDOW_TILE_VERT:
-    if (true) {
+    case ID_WINDOW_CASCADE:
+    case ID_WINDOW_TILE_HORZ:
+    case ID_WINDOW_TILE_VERT: {
       CWindowList windowList;
       ::GetSelectedWindows(&windowList);
-      if (windowList.size() == 0) {
+      if (windowList.size() == 0)
         break;
-      }
 
       RECT rcScreen;
       ::SystemParametersInfo(SPI_GETWORKAREA, 0, &rcScreen, 0);
@@ -167,42 +165,38 @@ void MainWindow_OnCommand(HWND hWnd, int nID, HWND hWndCtrl, UINT uCodeNotify) {
                      (rcWindow.right - rcWindow.left);
       size_t deltaX = width / (windowList.size() - 1);
 
-      if (nID == ID_WINDOW_TILE_HORZ) {
+      if (nID == ID_WINDOW_TILE_HORZ)
         deltaX = 0;
-      }
 
       size_t height = (rcScreen.bottom - rcScreen.top) -
                       (rcWindow.bottom - rcWindow.top);
       size_t deltaY = height / (windowList.size() - 1);
 
-      if (nID == ID_WINDOW_TILE_VERT) {
+      if (nID == ID_WINDOW_TILE_VERT)
         deltaY = 0;
-      }
 
       for (int i = windowList.size() - 1; 0 <= i; --i) {
         ::SetForegroundWindow(windowList[i]);
-        ::SetWindowPos(windowList[i], HWND_TOP,
-                       deltaX * i, deltaY * i, 0, 0,
+        ::SetWindowPos(windowList[i], HWND_TOP, deltaX * i, deltaY * i, 0, 0,
                        SWP_NOSIZE);
       }
+
+      ::SetForegroundWindow(hWnd);
+      break;
     }
 
-    ::SetForegroundWindow(hWnd);
-    break;
+    case ID_WINDOW_NEW: {
+      CWindowList windowList;
+      ::GetSelectedWindows(&windowList);
 
-  case ID_WINDOW_NEW:
-    CWindowList windowList;
-    ::GetSelectedWindows(&windowList);
+      for (auto i = windowList.rbegin(); i != windowList.rend(); ++i) {
+        ::ShowWindow(*i, SW_SHOWNORMAL);
+        ::SetWindowPos(*i, HWND_TOP, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
+      }
 
-    for (CWindowList::reverse_iterator i = windowList.rbegin();
-         i != windowList.rend();
-         ++i) {
-      ::ShowWindow(*i, SW_SHOWNORMAL);
-      ::SetWindowPos(*i, HWND_TOP, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
+      ::SetForegroundWindow(hWnd);
+      break;
     }
-
-    ::SetForegroundWindow(hWnd);
-    break;
   }
 }
 
@@ -226,8 +220,8 @@ LRESULT CALLBACK MainWindowProc(HWND hWnd, UINT uMsg, WPARAM wParam,
     HANDLE_MSG(hWnd, WM_COMMAND, MainWindow_OnCommand);
     HANDLE_MSG(hWnd, WM_ACTIVATE, MainWindow_OnActivate);
 
-  default:
-    return ::DefWindowProc(hWnd, uMsg, wParam, lParam);
+    default:
+      return ::DefWindowProc(hWnd, uMsg, wParam, lParam);
   }
 
   return FALSE;

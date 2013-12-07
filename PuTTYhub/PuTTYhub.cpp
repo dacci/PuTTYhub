@@ -18,13 +18,11 @@ HINSTANCE g_hInstance;
 int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE, LPTSTR, int) {
   g_hInstance = hInstance;
 
-  if (!::MainWindow_RegisterClass()) {
+  if (!::MainWindow_RegisterClass())
     return ::GetLastError();
-  }
 
-  if (!::MessageMulticaster_RegisterClass()) {
+  if (!::MessageMulticaster_RegisterClass())
     return ::GetLastError();
-  }
 
   if (!::CreateWindowEx(0,
                         WC_MAIN_WINDOW,
@@ -35,17 +33,15 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE, LPTSTR, int) {
                         NULL,
                         NULL,
                         hInstance,
-                        NULL)) {
+                        NULL))
     return ::GetLastError();
-  }
 
   MSG msg;
   BOOL result;
 
   while ((result = ::GetMessage(&msg, NULL, 0, 0)) != 0) {
-    if (result == -1) {
+    if (result == -1)
       break;
-    }
 
     ::TranslateMessage(&msg);
     ::DispatchMessage(&msg);

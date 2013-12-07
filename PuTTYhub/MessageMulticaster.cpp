@@ -46,31 +46,31 @@ ATOM MessageMulticaster_RegisterClass() {
 LRESULT CALLBACK MessageMulticasterWindowProc(HWND hWnd, UINT uMsg,
                                               WPARAM wParam, LPARAM lParam) {
   switch (uMsg) {
-  case WM_CREATE:
-    break;
+    case WM_CREATE:
+      break;
 
-  case WM_DESTROY:
-    break;
+    case WM_DESTROY:
+      break;
 
-  case WM_RBUTTONDOWN:
-  case WM_RBUTTONUP:
-    ::SendMessageToWindows(uMsg, wParam, lParam);
-    break;
+    case WM_RBUTTONDOWN:
+    case WM_RBUTTONUP:
+      ::SendMessageToWindows(uMsg, wParam, lParam);
+      break;
 
-  case WM_KEYDOWN:
-  case WM_KEYUP:
-  case WM_SYSKEYDOWN:
-  case WM_SYSKEYUP:
-    ::PostMessageToWindows(uMsg, wParam, lParam);
-    break;
+    case WM_KEYDOWN:
+    case WM_KEYUP:
+    case WM_SYSKEYDOWN:
+    case WM_SYSKEYUP:
+      ::PostMessageToWindows(uMsg, wParam, lParam);
+      break;
 
-  case WM_LBUTTONDOWN:
-  case WM_LBUTTONUP:
-    ::SetFocus(hWnd);
-    break;
+    case WM_LBUTTONDOWN:
+    case WM_LBUTTONUP:
+      ::SetFocus(hWnd);
+      break;
 
-  default:
-    return ::DefWindowProc(hWnd, uMsg, wParam, lParam);
+    default:
+      return ::DefWindowProc(hWnd, uMsg, wParam, lParam);
   }
 
   return FALSE;
