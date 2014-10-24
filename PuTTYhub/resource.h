@@ -1,16 +1,18 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Visual C++ generated include file.
-// Used by PuTTYhub.rc
+// Microsoft Visual C++ で生成されたインクルード ファイル。
+// PuTTYhub.rc で使用
 //
-#define IDR_MAIN_MENU                   101
+#define IDR_MAIN                        101
+#define IDC_CASTER                      1001
+#define IDC_WINDOWS                     1002
 
 // Next default values for new objects
-//
+// 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        102
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1001
+#define _APS_NEXT_CONTROL_VALUE         1003
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

@@ -19,77 +19,16 @@ HWND g_hMsgMcasterWnd;
 HWND g_hListBoxWnd;
 
 /**
- * Registers window class of the main window.
+ * WM_INITDIALOG message handler.
  *
- * @return Registered class atom, or zero if failed.
+ * @param hWndFocus
+ *     A handle to the control to receive the default keyboard focus
+ * @param lParam
+ *     Additional initialization data
  */
-ATOM MainWindow_RegisterClass() {
-  WNDCLASSEX wcex = { sizeof(wcex) };
-
-  wcex.lpfnWndProc = ::MainWindowProc;
-  wcex.hInstance = g_hInstance;
-  wcex.hIcon = ::LoadIcon(NULL, IDI_ERROR);
-  wcex.hCursor = ::LoadCursor(NULL, IDC_ARROW);
-  wcex.hbrBackground = reinterpret_cast<HBRUSH>(COLOR_3DFACE + 1);
-  wcex.lpszMenuName = MAKEINTRESOURCE(IDR_MAIN_MENU);
-  wcex.lpszClassName = WC_MAIN_WINDOW;
-
-  return ::RegisterClassEx(&wcex);
-}
-
-/**
- * WM_CREATE message handler.
- *
- * @param hWnd
- *     Handle to the window that received the message
- * @param lpCreateStruct
- *     Pointer to a CREATESTRUCT
- */
-BOOL MainWindow_OnCreate(HWND hWnd, LPCREATESTRUCT lpCreateStruct) {
-  g_hMsgMcasterWnd = ::CreateWindowEx(WS_EX_CLIENTEDGE,
-                                      WC_MESSAGE_MULTICASTER,
-                                      WC_MESSAGE_MULTICASTER,
-                                      WS_CHILD |
-                                      WS_VISIBLE |
-                                      WS_CLIPCHILDREN |
-                                      WS_CLIPSIBLINGS,
-                                      5, 5,
-                                      214, 99,
-                                      hWnd,
-                                      NULL,
-                                      g_hInstance,
-                                      NULL);
-
-  g_hListBoxWnd = ::CreateWindowEx(WS_EX_CLIENTEDGE,
-                                   WC_LISTBOX,
-                                   WC_LISTBOX,
-                                   WS_CHILD |
-                                   WS_VISIBLE |
-                                   WS_CLIPCHILDREN |
-                                   WS_CLIPSIBLINGS |
-                                   LBS_MULTIPLESEL,
-                                   5, 109,
-                                   214, 112,
-                                   hWnd,
-                                   NULL,
-                                   g_hInstance,
-                                   NULL);
-  SetWindowFont(g_hListBoxWnd, GetStockFont(DEFAULT_GUI_FONT), FALSE);
-
-  HWND hButton = CreateWindowEx(0,
-                                WC_BUTTON,
-                                _T("ç≈êVÇÃèÓïÒÇ…çXêV"),
-                                WS_CHILD |
-                                WS_VISIBLE |
-                                WS_CLIPCHILDREN |
-                                WS_CLIPSIBLINGS,
-                                5, 226,
-                                214, 20,
-                                hWnd,
-                                reinterpret_cast<HMENU>(IDRETRY),
-                                g_hInstance,
-                                NULL);
-  SetWindowFont(hButton, GetStockFont(DEFAULT_GUI_FONT), FALSE);
+BOOL MainWindow_OnInitDialog(HWND hWnd, HWND hWndFocus, LPARAM lParam) {
+  g_hMsgMcasterWnd = ::GetDlgItem(hWnd, IDC_CASTER);
+  g_hListBoxWnd = ::GetDlgItem(hWnd, IDC_WINDOWS);
 
   ::CreateWindowList();
 
@@ -142,10 +81,13 @@ void MainWindow_OnActivate(HWND hWnd, UINT uState, HWND hWndActDeact,
  */
 void MainWindow_OnCommand(HWND hWnd, int nID, HWND hWndCtrl, UINT uCodeNotify) {
   switch (nID) {
-    case IDRETRY: {
+    case IDCANCEL:
+      ::DestroyWindow(hWnd);
+      break;
+
+    case IDRETRY:
       ::UpdateWindowList();
       break;
-    }
 
     case ID_WINDOW_CASCADE:
     case ID_WINDOW_TILE_HORZ:
@@ -198,7 +140,7 @@ void MainWindow_OnCommand(HWND hWnd, int nID, HWND hWndCtrl, UINT uCodeNotify) {
       CWindowList windowList;
       ::GetSelectedWindows(&windowList);
 
-      for (auto i = windowList.rbegin(); i != windowList.rend(); ++i) {
+      for (auto i = windowList.rbegin(), l = windowList.rend(); i != l; ++i) {
         ::ShowWindow(*i, SW_SHOWNORMAL);
         ::SetWindowPos(*i, HWND_TOP, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
       }
@@ -221,17 +163,17 @@ void MainWindow_OnCommand(HWND hWnd, int nID, HWND hWndCtrl, UINT uCodeNotify) {
  * @param lParam
  *     additional message information
  */
-LRESULT CALLBACK MainWindowProc(HWND hWnd, UINT uMsg, WPARAM wParam,
+INT_PTR CALLBACK MainWindowProc(HWND hWnd, UINT uMsg, WPARAM wParam,
                                 LPARAM lParam) {
   switch (uMsg) {
-    HANDLE_MSG(hWnd, WM_CREATE, MainWindow_OnCreate);
+    HANDLE_MSG(hWnd, WM_INITDIALOG, MainWindow_OnInitDialog);
     HANDLE_MSG(hWnd, WM_DESTROY, MainWindow_OnDestroy);
     HANDLE_MSG(hWnd, WM_COMMAND, MainWindow_OnCommand);
     HANDLE_MSG(hWnd, WM_ACTIVATE, MainWindow_OnActivate);
 
     default:
-      return ::DefWindowProc(hWnd, uMsg, wParam, lParam);
+      return FALSE;
   }
 
-  return FALSE;
+  return TRUE;
 }

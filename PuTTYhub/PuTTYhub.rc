@@ -13,13 +13,11 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// 日本語 resources
+// 日本語 (日本) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
-#ifdef _WIN32
 LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
 #pragma code_page(932)
-#endif //_WIN32
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -27,18 +25,18 @@ LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE 
+1 TEXTINCLUDE
 BEGIN
     "resource.h\0"
 END
 
-2 TEXTINCLUDE 
+2 TEXTINCLUDE
 BEGIN
     "#include ""afxres.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE 
+3 TEXTINCLUDE
 BEGIN
     "\r\n"
     "\0"
@@ -53,8 +51,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,2,0,1
- PRODUCTVERSION 1,2,0,1
+ FILEVERSION 1,3,0,0
+ PRODUCTVERSION 1,3,0,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -71,12 +69,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "dacci.org"
             VALUE "FileDescription", "PuTTYhub"
-            VALUE "FileVersion", "1, 2, 0, 1"
+            VALUE "FileVersion", "1.3.0.0"
             VALUE "InternalName", "PuTTYhub"
-            VALUE "LegalCopyright", "Copyright (C) 2011 Shinya Tsuda"
+            VALUE "LegalCopyright", "Copyright (c) 2014 dacci.org"
             VALUE "OriginalFilename", "PuTTYhub.exe"
             VALUE "ProductName", "PuTTYhub"
-            VALUE "ProductVersion", "1, 2, 0, 1"
+            VALUE "ProductVersion", "1.3.0.0"
         END
     END
     BLOCK "VarFileInfo"
@@ -91,19 +89,59 @@ END
 // Menu
 //
 
-IDR_MAIN_MENU MENU 
+IDR_MAIN MENU
 BEGIN
     POPUP "ウィンドウ"
     BEGIN
         MENUITEM "重ねて表示(&C)",                   ID_WINDOW_CASCADE
-        MENUITEM "上下に並べて表示(&H)",             ID_WINDOW_TILE_HORZ
-        MENUITEM "左右に並べて表示(&V)",             ID_WINDOW_TILE_VERT
+        MENUITEM "上下に並べて表示(&H)",                ID_WINDOW_TILE_HORZ
+        MENUITEM "左右に並べて表示(&V)",                ID_WINDOW_TILE_VERT
         MENUITEM SEPARATOR
         MENUITEM "すべて表示(&S)",                   ID_WINDOW_NEW
     END
 END
 
-#endif    // 日本語 resources
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDR_MAIN DIALOGEX 0, 0, 161, 159
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_CAPTION | WS_SYSMENU
+CAPTION "PuTTYhub"
+MENU IDR_MAIN
+FONT 8, "MS Shell Dlg", 400, 0, 0x80
+BEGIN
+    CONTROL         "MessageMulticaster",IDC_CASTER,"MessageMulticaster",WS_TABSTOP,7,7,147,59,WS_EX_CLIENTEDGE
+    LISTBOX         IDC_WINDOWS,7,73,147,59,LBS_MULTIPLESEL | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "最新の情報に更新",IDRETRY,7,139,147,13
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDR_MAIN, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 154
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 152
+        HORZGUIDE, 66
+        HORZGUIDE, 73
+        HORZGUIDE, 132
+        HORZGUIDE, 139
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // 日本語 (日本) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

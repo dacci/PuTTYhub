@@ -15,13 +15,10 @@
 
 #define WC_MAIN_WINDOW _T("PuTTYhub")
 
-extern HWND g_hMainWnd;
 extern HWND g_hMsgMcasterWnd;
 extern HWND g_hListBoxWnd;
 
-ATOM MainWindow_RegisterClass();
-
-LRESULT CALLBACK MainWindowProc(HWND hWnd, UINT uMsg, WPARAM wParam,
+INT_PTR CALLBACK MainWindowProc(HWND hWnd, UINT uMsg, WPARAM wParam,
                                 LPARAM lParam);
 
 #endif  // PUTTYHUB_MAINWINDOW_H_

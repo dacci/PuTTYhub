@@ -11,6 +11,7 @@
 #include "PuTTYhub.h"
 #include "MainWindow.h"
 #include "MessageMulticaster.h"
+#include "resource.h"
 
 // Handle to the current instance of the application
 HINSTANCE g_hInstance;
@@ -18,22 +19,12 @@ HINSTANCE g_hInstance;
 int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE, LPTSTR, int) {
   g_hInstance = hInstance;
 
-  if (!::MainWindow_RegisterClass())
-    return ::GetLastError();
-
   if (!::MessageMulticaster_RegisterClass())
     return ::GetLastError();
 
-  if (!::CreateWindowEx(0,
-                        WC_MAIN_WINDOW,
-                        WC_MAIN_WINDOW,
-                        WS_OVERLAPPEDWINDOW ^ WS_THICKFRAME ^ WS_MAXIMIZEBOX,
-                        CW_USEDEFAULT, 0,
-                        230, 299,
-                        NULL,
-                        NULL,
-                        hInstance,
-                        NULL))
+  HWND hWnd = ::CreateDialogParam(hInstance, MAKEINTRESOURCE(IDR_MAIN), NULL,
+                                  MainWindowProc, 0);
+  if (!hWnd)
     return ::GetLastError();
 
   MSG msg;
