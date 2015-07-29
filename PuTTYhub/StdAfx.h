@@ -18,6 +18,6 @@
 
 #include <commctrl.h>
 
-#include <afxres.h>
+#include <atlres.h>
 
 #endif  // PUTTYHUB_STDAFX_H_
